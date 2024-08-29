@@ -1,40 +1,84 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
-import Swiper from 'react-native-swiper';
+import { View, Text, ImageBackground, StyleSheet, ScrollView, Dimensions } from 'react-native';
 
-export default function BannerSlider() {
+const { width } = Dimensions.get('window');
+
+const categories = [
+    {
+        id: '1',
+        image: 'https://images.cbazaar.com/pl_images/bannerimages/SB6_July19.jpg',
+    },
+    {
+        id: '2',
+        image: 'https://images.cbazaar.com/pl_images/bannerimages/SB7_July19.jpg',
+    },
+    {
+        id: '3',
+        image: 'https://images.cbazaar.com/pl_images/bannerimages/SB8_July19.jpg',
+    },
+    {
+        id: '4',
+        image: 'https://images.cbazaar.com/pl_images/bannerimages/SB9_July19.jpg',
+    },
+];
+
+const CategoryCard = ({ title, image }) => (
+    <ImageBackground source={{ uri: image }} style={styles.image}>
+        <View style={styles.overlay}>
+            <Text style={styles.title}>{title}</Text>
+        </View>
+    </ImageBackground>
+);
+
+const BannerSlider = () => {
     return (
-        <Swiper style={styles.wrapper} showsButtons={true} showsPagination={false}>
-            <View style={styles.slide}>
-                <Image source={{ uri: 'https://images.cbazaar.com/pl_images/bannerimages/CB_WP_Aug16.jpg' }} style={styles.sliderImage} />
-            </View>
-            <View style={styles.slide}>
-                <Image source={{ uri: 'https://images.cbazaar.com/pl_images/bannerimages/CB_WP_Aug20.jpg' }} style={styles.sliderImage} />
-            </View>
-            <View style={styles.slide}>
-                <Image source={{ uri: 'https://images.cbazaar.com/pl_images/bannerimages/CB_WP_Aug21.jpg' }} style={styles.sliderImage} />
-            </View>
-            <View style={styles.slide}>
-                <Image source={{ uri: 'https://images.cbazaar.com/pl_images/bannerimages/CB_WP_Aug22.jpg' }} style={styles.sliderImage} />
-            </View>
-        </Swiper>
+        <View style={styles.container}>
+            <Text style={styles.heading}>CATEGORIES TO BAG</Text>
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.scrollView}
+            >
+                {categories.map((item) => (
+                    <CategoryCard key={item.id} title={item.title} image={item.image} />
+                ))}
+            </ScrollView>
+        </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
-    wrapper: {
-        height: 200,
-        marginTop: 0, // Ensure no top margin
-        borderWidth: 1, // Add border for visual debugging
-    },
-    slide: {
+    container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: '#fff',
+        paddingTop: 20,
     },
-    sliderImage: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
+    heading: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 10,
+    },
+    scrollView: {
+        paddingHorizontal: 10,
+    },
+    image: {
+        width: width * 0.7,
+        height: width * 0.9,
+        marginRight: 10,
+        justifyContent: 'flex-end',
+        borderRadius: 10,
+        overflow: 'hidden',
+    },
+    overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        padding: 10,
+    },
+    title: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });
+
+export default BannerSlider;
